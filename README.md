@@ -1,6 +1,6 @@
 # Java Lessons
 
-<img src="https://thumbs.dreamstime.com/z/java-programming-word-cloud-hand-sphere-concept-white-background-127724638.jpg" alt="Java Programming Word Cloud" width="2038" height="1471" style="width: 17.3cm; height: 12.5cm;">
+<img src="https://thumbs.dreamstime.com/z/java-programming-word-cloud-hand-sphere-concept-white-background-127724638.jpg" alt="Java Programming Word Cloud" width="1000" height="500" style="width: 17.3cm; height: 12.5cm;">
 
 This repository contains the code and projects from the **Java Programming Masterclass** course on Udemy. Each folder represents a different lesson or topic covered in the course.
 
