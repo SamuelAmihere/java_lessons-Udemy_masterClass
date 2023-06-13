@@ -29,7 +29,8 @@ public class Main {
         if (isAlien == false)
             System.out.println("Not Alien");
     }
-}```
+}
+```
 
 
 ## Output
