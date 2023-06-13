@@ -5,7 +5,7 @@ This repository contains the code and projects from the **Java Programming Maste
 ## Course Information
 
 Course: [Java Programming Masterclass](https://www.udemy.com/course/java-the-complete-java-developer-course/)
-Instructor: [John Smith](https://www.udemy.com/user/johnsmith/)
+Instructor: [Tim Buchalka](https://www.udemy.com/user/timbuchalka/)
 Platform: Udemy
 
 ## Table of Contents
