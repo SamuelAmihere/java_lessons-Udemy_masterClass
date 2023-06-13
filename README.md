@@ -51,7 +51,6 @@ Platform: Udemy
 To get started with any specific lesson or topic, navigate to the corresponding folder and explore the code and projects within it.
 
 ## Course Progress
-([x] => completed)
 - [x] AbreviatingOperators
 - [x] Abstraction
 - [x] AllAboutString
