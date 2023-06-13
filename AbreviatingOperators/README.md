@@ -34,12 +34,14 @@ public class Main {
 
 
 ## Output
+```
 5
 4
 6
 60
 20
 Not Alien
+```
 
 ## Explanation
 
