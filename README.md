@@ -1,5 +1,8 @@
 # Java Lessons
 
+![Java Programming Word Cloud](https://www.dreamstime.com/java-programming-word-cloud-hand-sphere-concept-white-background-image127724638)
+
+
 This repository contains the code and projects from the **Java Programming Masterclass** course on Udemy. Each folder represents a different lesson or topic covered in the course.
 
 ## Course Information
