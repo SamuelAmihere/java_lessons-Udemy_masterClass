@@ -43,7 +43,7 @@ Platform: Udemy
 - [Scope](./Scope)
 - [SeriesTest](./SeriesTest)
 - [StringOptions](./StringOptions)
-- [TestDB](./TestDB)
+- [Databases](./Databases)
 - [TheObjectClass](./TheObjectClass)
 
 ## Getting Started
@@ -51,46 +51,42 @@ Platform: Udemy
 To get started with any specific lesson or topic, navigate to the corresponding folder and explore the code and projects within it.
 
 ## Course Progress
-
-You can use the following checklist to keep track of your progress in the course:
-
-- [ ] AbreviatingOperators
-- [ ] Abstraction
-- [ ] AllAboutString
-- [ ] ArrayListChallenge
-- [ ] Arrays
-- [ ] ByteShortIntLong
-- [ ] CharAndBoolean
-- [ ] Collections
-- [ ] Encapsulation
-- [ ] Exceptions
-- [ ] FloatAndDouble
-- [ ] GenericChallenge
-- [ ] GenericsPart2
-- [ ] HelloWorld/HelloWorld
-- [ ] Inheritance
-- [ ] InnerClassChallenge
-- [ ] InnerClasses
-- [ ] InputAndOutput
-- [ ] InputOutput NIO
-- [ ] Interfaces
-- [ ] InterfacesChallenge
-- [ ] LinkedList
-- [ ] LinkedListChallenge
-- [ ] ListAndArrayList
-- [ ] MultiCatchException
-- [ ] OOPTest
-- [ ] POJO
-- [ ] PackageChallenge
-- [ ] Packages
-- [ ] PrimitiveTypesChallenge
-- [ ] Scope
-- [ ] SeriesTest
-- [ ] StringOptions
-- [ ] TestDB
-- [ ] TheObjectClass
-
-Feel free to mark the lessons you have completed by checking the corresponding checkboxes.
+([x] => completed)
+- [x] AbreviatingOperators
+- [x] Abstraction
+- [x] AllAboutString
+- [x] ArrayListChallenge
+- [x] Arrays
+- [x] ByteShortIntLong
+- [x] CharAndBoolean
+- [x] Collections
+- [x] Encapsulation
+- [x] Exceptions
+- [x] FloatAndDouble
+- [x] GenericChallenge
+- [x] GenericsPart2
+- [x] HelloWorld/HelloWorld
+- [x] Inheritance
+- [x] InnerClassChallenge
+- [x] InnerClasses
+- [x] InputAndOutput
+- [x] InputOutput NIO
+- [x] Interfaces
+- [x] InterfacesChallenge
+- [x] LinkedList
+- [x] LinkedListChallenge
+- [x] ListAndArrayList
+- [x] MultiCatchException
+- [x] OOPTest
+- [x] POJO
+- [x] PackageChallenge
+- [x] Packages
+- [x] PrimitiveTypesChallenge
+- [x] Scope
+- [x] SeriesTest
+- [x] StringOptions
+- [x] TheObjectClass
+- [ ] Databases
 
 ## Support
 
