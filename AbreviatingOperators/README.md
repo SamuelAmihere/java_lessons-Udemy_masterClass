@@ -2,7 +2,7 @@
 
 This Java program demonstrates the usage of abbreviated operators to perform arithmetic operations on a variable and logical operations.
 
-## Code
+## Code (./src/academy/learnprogramming)
 
 ```java
 package academy.learnprogramming;
@@ -29,7 +29,7 @@ public class Main {
         if (isAlien == false)
             System.out.println("Not Alien");
     }
-}
+}```
 
 
 ## Output
