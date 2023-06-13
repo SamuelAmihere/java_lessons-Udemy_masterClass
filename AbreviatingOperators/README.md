@@ -2,7 +2,8 @@
 
 This Java program demonstrates the usage of abbreviated operators to perform arithmetic operations on a variable and logical operations.
 
-## Code (./src/academy/learnprogramming)
+## Code 
+[Main.java](./src/academy/learnprogramming)
 
 ```java
 package academy.learnprogramming;
