@@ -1,0 +1,81 @@
+public class Main {
+    /* ------------------------------------------------------------------------
+                                  GLOBAL VARIABLES
+    ---------------------------------------------------------------------------
+     */
+    // ===============DATABASE==========
+    public static String db_name = "testjava.db";
+    public static String db_driver = "jdbc:sqlite";
+    public static String db_path = "/home/samuel/amihere2830/programmingLessons" +
+            "/Udemy/java-master-class/Database/TestDB/";
+    public static String db_url = db_driver + ":" + db_path + db_name;
+
+    // ===============STATEMENTS========
+    //---Fields
+    public static String contact_fields = "(name TEXT, phone INTEGER, email TEXT)";
+    public static String contact_fields_insert = "(name, phone, email)";
+
+    //--- Create Table ---
+    public static String create = "CREATE TABLE IF NOT EXISTS ";
+    //--- Insert Data ---
+    public static String insert = "INSERT INTO ";
+    //--- Queries ---
+
+
+    public static void main(String[] args) {
+        int i;
+
+        try(Connection conn = DriverManager.getConnection(db_url);
+            Statement statement = conn.createStatement()) {
+            System.out.println("Connection Established");
+            List<String> sql_st = createStatements();
+
+            // ----------------Execute Statement---------------------------
+            for (i = 0; i < sql_st.size(); i++) statement.execute(sql_st.get(i));
+
+        } catch(SQLException e){
+            System.out.println("Something went wrong: " + e.getMessage());
+        }
+    }
+
+    //===========================CREATE SQL STATEMENTS=========================
+    public static List<String> createStatements(){
+        String tbName, fields;
+        List<String> dbStatements = new ArrayList<>();
+        List<String> data = new ArrayList<>();
+        int i;
+
+        // create contacts table
+        tbName = "contacts";
+        fields = contact_fields;
+        String create_contacts_stmt = createTableStmt(tbName, fields);
+
+        dbStatements.add(create_contacts_stmt);
+
+        // set data for contacts table
+        fields = contact_fields_insert;
+        data.add("('Amihere', 233000000000, 'ami@gmail.com')");
+        data.add("('Clement', 233000000000, 'clement@gmail.com')");
+
+        // insert data into contacts table
+        for (i = 0; i < data.size(); i++){
+            String insert_contact_stmt = insertDataStmt(tbName, fields, data.get(i));
+            dbStatements.add(insert_contact_stmt);
+        }
+        return dbStatements;
+    }
+    public static String createTableStmt(String tableName, String fields){
+        return create +
+                tableName + " " +
+                fields;
+    }
+    public static String insertDataStmt(String tableName, String fields,
+                                    String values){
+        return insert +
+                tableName + " " +
+                fields +
+                " " +
+                "VALUES" +
+                values;
+    }
+}
