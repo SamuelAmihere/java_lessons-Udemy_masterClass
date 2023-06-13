@@ -1,7 +1,13 @@
 # Databases
 
+## Table of Contents
+- [TestDB](#testdb)
+
+## TestDB
+
 The Databases folder contains the TestDB project, which performs CRUD operations on the contact table in the testjava.db database. The database used is SQLite. The project includes three classes: DBTable, SQLStatement, and DataBase.
-## Main Class
+
+### Main Class
 
 The Main class serves as the entry point for the TestDB project. It contains the main method and performs various operations on the contact table.
 ### Global Variables
