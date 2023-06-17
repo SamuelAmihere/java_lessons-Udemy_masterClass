@@ -2,6 +2,7 @@
 
 ## Table of Contents
 - [TestDB](#testdb)
+- [MusicDB](#musicdb)
 
 ## TestDB
 [codes:](./TestDB)
@@ -49,6 +50,7 @@ The Main class also includes several helper functions to perform different tasks
 
 To use the TestDB project, make sure you have the SQLite JDBC driver added to your project's dependencies. Adjust the database path in the Main class to match the location of your testjava.db file. You can then run the project and observe the CRUD operations on the contact table.
 
+## MusicDB
 Note: This README assumes that you are familiar with Java programming and basic database concepts.
 
 Feel free to explore the TestDB project and modify it according to your requirements.
