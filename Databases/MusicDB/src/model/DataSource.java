@@ -2,10 +2,7 @@ package model;
 
 import utilities.ThreadColor;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,12 +20,12 @@ public class DataSource {
     /* --------------------TABLES & FIELDS-------------------------*/
     // 1. albums table
     public static final String TABLE_ALBUMS = "albums";
-    public static final String COLUMN_ALBUM_ID = "_d";
+    public static final String COLUMN_ALBUM_ID = "_id";
     public static final String COLUMN_ALBUM_NAME = "name";
     public static final String COLUMN_ALBUM_ARTIST = "artist";
 
     // albums schema
-    public static String albums_fields = "(" +
+    public static String albums_schema = "(" +
             DataSource.COLUMN_ALBUM_ID + " INTEGER, " +
             DataSource.COLUMN_ALBUM_NAME + " TEXT, " +
             DataSource.COLUMN_ALBUM_ARTIST + " INTEGER)";
@@ -36,23 +33,24 @@ public class DataSource {
 
     // 2. artists table
     public static final String TABLE_ARTISTS = "artists";
-    public static final String COLUMN_ARTIST_ID = "_d";
+    public static final String COLUMN_ARTIST_ID = "_id";
     public static final String COLUMN_ARTIST_NAME = "name";
 
     //artists schema
-    public static String artists_fields = "(" +
+    public static String artists_schema = "(" +
             DataSource.COLUMN_ARTIST_ID + " INTEGER, " +
             DataSource.COLUMN_ARTIST_NAME + " TEXT)";
     public static List<String> artists_columns = new ArrayList<>();
 
     // 3. songs table
     public static final String TABLE_SONGS = "songs";
+    public static final String COLUMN_SONG_ID = "_id";
     public static final String COLUMN_SONG_TRACK = "track";
     public static final String COLUMN_SONG_TITLE = "title";
     public static final String COLUMN_SONG_ALBUM = "album";
 
     // songs schema
-    public static String songs_fields = "(" +
+    public static String songs_schema = "(" +
             DataSource.COLUMN_SONG_ALBUM + " INTEGER, " +
             DataSource.COLUMN_SONG_TITLE + " TEXT, " +
             DataSource.COLUMN_SONG_TRACK + " INTEGER)";
@@ -112,56 +110,100 @@ public class DataSource {
         }
     }
 
-    //Get Statement
-    public Statement getStatement() {
-        try {
-            if (this.conn != null) { // use connection if already created
-                this.statement = this.conn.createStatement();
-                return this.statement;
-            } else {
-                System.out.println("Connection not established");
-                System.out.println("Creating new connection...");
-                if (this.open()){ // Create new connection if not created yet
-                    this.statement = this.conn.createStatement();
-                    return this.statement;
-                } else
-                {
-                    System.out.println(ThreadColor.RED+"Connection attempt not "+
-                            "possible"+ThreadColor.RESET);
-                }
-                return (null);
+    /* --------QUERIES--------------*/
+    public List<Artist> queryArtists(String select) {
+        try (Statement statement = conn.createStatement();
+             ResultSet results = statement.executeQuery(select)) {
+            int i = 0;
+
+            List<Artist> artists = new ArrayList<>();
+            while (results.next()) {
+                i++;
+                /*create artist*/
+                Artist artist = new Artist();
+
+                artist.setId(results.getInt(COLUMN_ARTIST_ID));
+                artist.setName(results.getString(COLUMN_ARTIST_NAME));
+                artist.setSchema(artists_schema);
+
+                /*Fill artists*/
+                artists.add(artist);
             }
-        } catch (SQLException e){
+            System.out.println("-----------------------------------");
+            System.out.println(i + " artists retrieved from database.");
+            System.out.println("===================================");
+
+            return (artists);
+        } catch (SQLException e) {
             System.out.println(ThreadColor.RED+"Couldn't create statement"+
                     ThreadColor.RESET);
+            e.printStackTrace();
             return (null);
         }
     }
 
-    public boolean executeSQL(Statement st, String sql_statement){
-        boolean flag = false;
-        try {
-            st.execute(sql_statement);
-            flag = true;
-        }catch (SQLException e){
-            System.out.println("Something went wrong: " +
-                    e.getMessage());
+    public List<Album> queryAlbum(String select){
+        try (Statement statement = conn.createStatement();
+            ResultSet results = statement.executeQuery(select)){
+            int i = 0;
+
+            /*create album*/
+            List<Album> albums = new ArrayList<>();
+            while (results.next()){
+                i++;
+
+                Album album = new Album();
+
+                album.setId(results.getInt(COLUMN_ALBUM_ID));
+                album.setName(results.getString(COLUMN_ALBUM_NAME));
+                album.setArtist_id(results.getInt(COLUMN_ALBUM_ARTIST));
+                album.setSchema(albums_schema);
+
+                albums.add(album);
+            }
+
+            System.out.println("-----------------------------------");
+            System.out.println(i + " albums retrieved from database.");
+            System.out.println("====================================");
+            return (albums);
+
+        } catch (SQLException e){
+            System.out.println(ThreadColor.RED+"Couldn't create statement"+
+                    ThreadColor.RESET);
             e.printStackTrace();
+            return (null);
         }
-        return flag;
     }
 
-    // Execute Table Query (SELECT)
-    public boolean executeQuery(Statement st, String sql_statement){
-        boolean flag = false;
-        try {
-            st.execute(sql_statement);
-            flag = true;
-        }catch (SQLException e){
-            System.out.println("Something went wrong: " +
-                    e.getMessage());
+    public List<Song> querySong(String select){
+        try (Statement statement = conn.createStatement();
+            ResultSet results = statement.executeQuery(select)){
+            int i = 0;
+
+            List<Song> songs = new ArrayList<>();
+            while (results.next()){
+                i++;
+
+                Song song = new Song();
+
+                song.setId(results.getInt(COLUMN_SONG_ID));
+                song.setTract_id(results.getInt(COLUMN_SONG_TRACK));
+                song.setTitle(results.getString(COLUMN_SONG_TITLE));
+                song.setAlbum_id(results.getInt(COLUMN_ALBUM_ID));
+
+                songs.add(song);
+            }
+
+            System.out.println("-----------------------------------");
+            System.out.println(i + " songs retrieved from database.");
+            System.out.println("====================================");
+            return (songs);
+
+        } catch (SQLException e){
+            System.out.println(ThreadColor.RED+"Couldn't create statement"+
+                    ThreadColor.RESET);
             e.printStackTrace();
+            return (null);
         }
-        return flag;
     }
 }

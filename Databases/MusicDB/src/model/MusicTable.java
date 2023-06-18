@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MusicTable {
@@ -9,12 +8,14 @@ public class MusicTable {
     private String schema;
     private List<String> columns = new ArrayList<>();
     private String fields;
-    private HashMap<String, String> history = new HashMap<>();
     private Integer count = 0;
 
+    /* Constructor */
     public MusicTable(String name) {
         this.table_name = name;
     }
+
+    /* Methods */
 
     public void create_schema(String schema) {
         this.schema = schema;
@@ -52,9 +53,4 @@ public class MusicTable {
         return fields;
     }
 
-    public void upDateHistory(String name, String stmt){
-        history.put(
-                name,
-                stmt);
-    }
 }
