@@ -1,8 +1,6 @@
 import model.*;
 import utilities.ThreadColor;
 
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 public class Main {
@@ -10,14 +8,13 @@ public class Main {
     /* FLAGS */
     public static boolean artists_flag = false;
     public static boolean albums_flag = false;
-    public static boolean songs_flag = true;
+    public static boolean songs_flag = false;
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args){
 
         //Initialize variables
         DataSource data_src;
-
-        Statement statement;
+        String select_count;
         int i;
 
         MusicTable songs_table;
@@ -25,6 +22,7 @@ public class Main {
         MusicTable artists_table;
 
         String query_songs, query_albums, query_artists;
+        String query_songs_count, query_albums_count, query_artists_count;
 
         List<Artist> artists_data;
         List<Album> albums_data;
@@ -62,12 +60,16 @@ public class Main {
         query_albums =new SQLStatement(albums_table).queryStmt("*");
         query_artists = new SQLStatement(artists_table).queryStmt("*");
 
+        // Query counts
+        query_songs_count = new SQLStatement(songs_table).queryStmt("COUNT(*)");
+        query_albums_count =new SQLStatement(albums_table).queryStmt("*");
+        query_artists_count = new SQLStatement(artists_table).queryStmt("COUNT(*)");
+
         /* -------------------------RESULTS------------------------*/
         /* QUERY DATA*/
         if (artists_flag){
-            System.out.println(artists_table.getSchema());
-            System.out.println(query_artists);
-            System.out.println("======================\n");
+            data_src.querySongMetaData(query_artists);
+            System.out.println("==========================================\n");
 
             /* Artist query data*/
             artists_data =  data_src.queryArtists(query_artists);
@@ -80,10 +82,8 @@ public class Main {
         }
 
         if (albums_flag){
-            System.out.println();
-            System.out.println(albums_table.getSchema());
-            System.out.println(query_albums);
-            System.out.println("======================\n");
+            data_src.querySongMetaData(query_albums);
+            System.out.println("==========================================\n");
 
             /* Artist query data*/
             albums_data =  data_src.queryAlbum(query_albums);
@@ -98,10 +98,9 @@ public class Main {
         }
 
         if (songs_flag){
-            System.out.println();
-            System.out.println(songs_table.getSchema());
-            System.out.println(query_songs);
-            System.out.println("======================\n");
+            data_src.querySongMetaData(query_songs);
+            System.out.println("Queried: "+data_src.getCount(query_songs_count));
+            System.out.println("==========================================\n");
 
             /* Artist query data*/
             songs_data =  data_src.querySong(query_songs);
@@ -116,6 +115,9 @@ public class Main {
             }
         }
 
+        System.out.println("artist_list view created? " +
+                (data_src.createViewForSongArtists()? ThreadColor.GREEN + "YES." :
+                ThreadColor.RED + "NO."));
 
         data_src.close(DataSource.CONNECTION_NAME);
     }

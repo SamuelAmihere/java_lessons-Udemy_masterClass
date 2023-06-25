@@ -5,6 +5,10 @@ public class Artist {
     private String name;
     private String schema;
 
+    public Artist() {
+        this.schema = DataSource.artists_schema;
+    }
+
     /*----Setters---*/
     public void setId(int id) {
         this.id = id;
@@ -12,10 +16,6 @@ public class Artist {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setSchema(String schema) {
-        this.schema = schema;
     }
 
     /*----Getters---*/

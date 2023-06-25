@@ -5,6 +5,11 @@ public class Song {
     private int tract_id;
     private String title;
     private int album_id;
+    private String schema;
+
+    public Song() {
+        this.schema = DataSource.songs_schema;
+    }
 
     /*SETTERS*/
 
