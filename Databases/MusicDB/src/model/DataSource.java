@@ -25,9 +25,9 @@ public class DataSource {
 
     // albums schema
     public static String albums_schema = "(" +
-            DataSource.COLUMN_ALBUM_ID + " INTEGER, " +
-            DataSource.COLUMN_ALBUM_NAME + " TEXT, " +
-            DataSource.COLUMN_ALBUM_ARTIST + " INTEGER)";
+            COLUMN_ALBUM_ID + " INTEGER, " +
+            COLUMN_ALBUM_NAME + " TEXT, " +
+            COLUMN_ALBUM_ARTIST + " INTEGER)";
     public static List<String> albums_columns = new ArrayList<>();
 
     // 2. artists table
@@ -37,8 +37,8 @@ public class DataSource {
 
     //artists schema
     public static String artists_schema = "(" +
-            DataSource.COLUMN_ARTIST_ID + " INTEGER, " +
-            DataSource.COLUMN_ARTIST_NAME + " TEXT)";
+            COLUMN_ARTIST_ID + " INTEGER, " +
+            COLUMN_ARTIST_NAME + " TEXT)";
     public static List<String> artists_columns = new ArrayList<>();
 
     // 3. songs table
@@ -50,13 +50,13 @@ public class DataSource {
 
     // songs schema
     public static String songs_schema = "(" +
-            DataSource.COLUMN_SONG_ALBUM + " INTEGER, " +
-            DataSource.COLUMN_SONG_TITLE + " TEXT, " +
-            DataSource.COLUMN_SONG_TRACK + " INTEGER)";
+            COLUMN_SONG_ALBUM + " INTEGER, " +
+            COLUMN_SONG_TITLE + " TEXT, " +
+            COLUMN_SONG_TRACK + " INTEGER)";
     public static List<String> song_columns = new ArrayList<>();
 
-    /* -------------------- QUERIES ------------------------*/
-    //Query Views
+    // TABLE VIEWS
+    // 4. artist_list
     public static final String TABLE_ARTIST_SONG_VIEW = "artist_list";
     public static final String CREATE_ARTIST_FOR_SONG_VIEW = "CREATE " +
             "VIEW IF NOT EXISTS " + TABLE_ARTIST_SONG_VIEW + " AS SELECT " +
@@ -72,6 +72,20 @@ public class DataSource {
             TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " +
             TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + ", " +
             TABLE_SONGS + "." + COLUMN_SONG_TRACK;
+
+    //Query artist_list
+    public static final String QUERY_VIEW_SONG_INFO_PREP = "SELECT " + COLUMN_ARTIST_NAME +
+            ", " + COLUMN_SONG_ALBUM + ", " + COLUMN_SONG_TRACK + " FROM " +
+            TABLE_ARTIST_SONG_VIEW + " WHERE " + COLUMN_SONG_TITLE + " = ?";
+    // artist_list schema
+    public static final String artist_list_schema = "(" +
+            COLUMN_ARTIST_NAME + " TEXT, " +
+            COLUMN_SONG_ALBUM + " TEXT, " +
+            COLUMN_SONG_TRACK + " INTEGER, " +
+            COLUMN_SONG_TITLE + " TEXT)";
+
+    /* -----------Create Prepared Statements---------------*/
+    private PreparedStatement querySongInfoView;
 
     /* ----------------------METHODS----------------------------- */
 
@@ -94,6 +108,7 @@ public class DataSource {
             conn = DriverManager.getConnection(DB_URL);
             System.out.println(ThreadColor.GREEN+"Connection Success!"+
                     ThreadColor.RESET);
+            querySongInfoView = conn.prepareStatement(QUERY_VIEW_SONG_INFO_PREP);
             return (true);
         } catch (SQLException e){
             System.out.println(ThreadColor.RED+"Couldn't connect to database: " +
@@ -104,7 +119,10 @@ public class DataSource {
 
     // Close Database Connection & Statement
     public void close(String resource){
-        try { //close resources: Connection AND Statement
+        try { //close resources: PreparedStatement, Connection AND Statement
+            if (querySongInfoView != null){
+                querySongInfoView.close();
+            }
             if (resource.equalsIgnoreCase(CONNECTION_NAME)){
                 if (conn != null){
                     conn.close();
@@ -258,6 +276,53 @@ public class DataSource {
         return (-1);
     }
 
+    /*-----------QUERY VIEWS----------*/
+    /*1. Query: SongArtistsView*/
+    public  List<SongArtist> querySongInfoView(String title){
+        System.out.println("Querying \""+ title +"\"...");
+
+        try{
+            int i = 0;
+
+            //pre-compile SQL statement
+            querySongInfoView.setString(1, title);
+            //execute the pre-compiled SQL statement
+            ResultSet results = querySongInfoView.executeQuery();
+
+            List<SongArtist> songArtists = new ArrayList<>();
+            while(results.next()){
+                i++;
+                SongArtist songArtist = new SongArtist();
+                songArtist.setArtistName(results.getString(1));
+                songArtist.setAlbumName(results.getString(2));
+                songArtist.setTrack(results.getInt(3));
+
+                songArtists.add(songArtist);
+            }
+
+            System.out.println("----------------------------------------");
+            System.out.println(i + " artists retrieved from artist_list view table.");
+            System.out.println("=========================================");
+            return (songArtists);
+
+        } catch (SQLException e){
+            System.out.println(ThreadColor.RED+"Couldn't create statement"+
+                    ThreadColor.RESET);
+            e.printStackTrace();
+
+            return (null);
+        }
+    }
+
+
+
+
+
+
+
+    /* ------------------------CREATE----------------------------------- */
+    /*-----------CREATE VIEWS--------------*/
+    /*1. Create: SongArtistsView */
     public boolean createViewForSongArtists() {
         try (Statement statement = conn.createStatement()) {
 

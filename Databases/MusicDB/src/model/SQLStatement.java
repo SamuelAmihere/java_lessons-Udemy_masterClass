@@ -37,6 +37,7 @@ public class SQLStatement {
                 where;
     }
 
+    /*Delete record using where*/
     public String createStmt(String where, boolean del){
         if (del){
             return "DELETE FROM " +
@@ -46,11 +47,22 @@ public class SQLStatement {
         } else return "";
     }
 
+    /*Query table without where clause*/
     public String queryStmt(String headers){
         return "SELECT " +
                 headers + " " +
                 "FROM " +
                 this.table.getTable_name();
+    }
+
+    /*Query table using where clause*/
+    public String queryStmt(String headers, String where){
+        return "SELECT " +
+                headers + " " +
+                "FROM " +
+                this.table.getTable_name() + " " +
+                "WHERE " +
+                where;
     }
 
     public String dropTable_stmt(){
