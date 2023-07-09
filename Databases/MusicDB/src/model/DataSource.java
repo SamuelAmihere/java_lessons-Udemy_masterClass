@@ -1,12 +1,56 @@
+/*=================================Import Packages===========================*/
 package model;
 
+/*==================================Import Resources=========================*/
 import utilities.ThreadColor;
 
 import java.sql.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+/*=============================== DataSource ==================================
+ * DataSource Class Definition
+ *
+ * FIELDS:
+ * ------
+ * globals: (Database connection): -  DB_NAME, DB_DRIVER, DB_PATH, DB_URL
+ *                                   CONNECTION_NAME, STATEMENT_NAME
+ *
+ *         (albums) -  TABLE_ALBUMS,COLUMN_ALBUM_ID,COLUMN_ALBUM_NAME,
+ *                     COLUMN_ALBUM_ARTIST,albums_schema, albums_columns
+ *
+ *         (artists) - TABLE_ARTISTS,COLUMN_ARTIST_ID, COLUMN_ARTIST_NAME,
+ *                           artists_schema, artists_columns
+
+ *          (songs) -   TABLE_SONGS,COLUMN_SONG_ID,COLUMN_SONG_TRACK,
+ *                      COLUMN_SONG_TITLE,COLUMN_SONG_ALBUM,songs_schema,
+ *                      song_columns
+ *
+ *          (artist_list) - TABLE_ARTIST_SONG_VIEW,CREATE_ARTIST_FOR_SONG_VIEW,
+ *                          QUERY_VIEW_SONG_INFO_PREP,artist_list_schema
+ *
+ *          (artists - Insert) -    INSERT_ARTIST,
+ *
+ * privates: (Database connection): - conn
+ *
+ *           (Prepared Statements): - querySongInfoView
+ *
+ * METHODS:
+ * --------
+ * global:  public boolean open()
+ *          public void close(String resource)
+ *          public List<Artist> queryArtists(String select)
+ *          public List<Album> queryAlbum(String select)
+ *          public List<Song> querySong(String select)
+ *          public void querySongMetaData(String select)
+ *          public int getCount(String select)
+ *          public  List<SongArtist> querySongInfoView(String title)
+ *          public boolean createViewForSongArtists()
+ */
+
 public class DataSource {
+    /* ---------------------------- GLOBALS VARIABLES --------------------*/
     /* --------------------------DATABASE-------------------------*/
     public static final String DB_NAME = "/resources/music.db";
     public static final String DB_DRIVER = "jdbc:sqlite";
@@ -84,12 +128,18 @@ public class DataSource {
             COLUMN_SONG_TRACK + " INTEGER, " +
             COLUMN_SONG_TITLE + " TEXT)";
 
+    /*--------------- Insert Records ----------------------*/
+    // artists - Insert
+    public static final String INSERT_ARTIST = "";
+
     /* -----------Create Prepared Statements---------------*/
     private PreparedStatement querySongInfoView;
 
     /* ----------------------METHODS----------------------------- */
 
-    //Constructor
+    /*=====================DataSource===============
+    * Constructor for DataSource Class
+    * */
     public DataSource() {
         song_columns.add(COLUMN_SONG_ALBUM);
         song_columns.add(DataSource.COLUMN_SONG_TITLE);
@@ -101,8 +151,10 @@ public class DataSource {
         artists_columns.add(COLUMN_ARTIST_NAME);
     }
 
-    /*----------------------------- METHODS ---------------------------------*/
-    // Open Database Connection
+    /*===================== Open ====================
+    * Open Database Connection
+    * Return[boolean]: true on success, false on failure
+     */
     public boolean open(){
         try {
             conn = DriverManager.getConnection(DB_URL);
@@ -117,7 +169,11 @@ public class DataSource {
         }
     }
 
-    // Close Database Connection & Statement
+    /*===================== close ===================
+     * Close Database Connection & Statement
+     * @resource[String]: Connection name
+     * Return: void
+     */
     public void close(String resource){
         try { //close resources: PreparedStatement, Connection AND Statement
             if (querySongInfoView != null){
@@ -146,7 +202,12 @@ public class DataSource {
         }
     }
 
-    /* --------QUERIES--------------*/
+    /* --------------------QUERIES-------------------*/
+    /*=================queryArtists==================
+    * Queries Artists table
+    * @select[String]: SQL select statement
+    * Return[List]: List of artists (id, name)
+    */
     public List<Artist> queryArtists(String select) {
         try (Statement statement = conn.createStatement();
              ResultSet results = statement.executeQuery(select)) {
@@ -177,6 +238,11 @@ public class DataSource {
         }
     }
 
+    /*=================queryAlbum==================
+     * Queries Album table
+     * @select[String]: SQL select statement
+     * Return[List]: List of albums (id, name, artist_id)
+     */
     public List<Album> queryAlbum(String select){
         try (Statement statement = conn.createStatement();
             ResultSet results = statement.executeQuery(select)){
@@ -210,6 +276,11 @@ public class DataSource {
         }
     }
 
+    /*=================querySong==================
+     * Queries Song table
+     * @select[String]: SQL select statement
+     * Return[List]: List of songs (id, track, title, album_id)
+     */
     public List<Song> querySong(String select){
         try (Statement statement = conn.createStatement();
             ResultSet results = statement.executeQuery(select)){
@@ -242,6 +313,11 @@ public class DataSource {
         }
     }
 
+    /*=================querySongMetaData=======
+     * Queries Song table for its MetaData info
+     * @select[String]: SQL select statement
+     * Return: void
+     */
     public void querySongMetaData(String select){
         int i;
 
@@ -261,6 +337,11 @@ public class DataSource {
         }
     }
 
+    /*=================getCount============================
+     * Gets the total counts of records from a queries
+     * @select[String]: SQL select statement
+     * Return[int]: total counts based on a query statement
+     */
     public int getCount(String select){
 
         try (Statement statement = conn.createStatement();
@@ -276,8 +357,12 @@ public class DataSource {
         return (-1);
     }
 
-    /*-----------QUERY VIEWS----------*/
-    /*1. Query: SongArtistsView*/
+    /*------------------------QUERY VIEWS------------------*/
+    /*=================querySongInfoView============================
+     * Gets the total counts of records from a queries
+     * @title[String]: Song's title to be queried
+     * Return[SongArtist]: a list of SongArtists
+     */
     public  List<SongArtist> querySongInfoView(String title){
         System.out.println("Querying \""+ title +"\"...");
 

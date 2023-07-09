@@ -5,15 +5,20 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    /* ---------------- GLOBALS --------------*/
+    /* ---------------------------- GLOBALS VARIABLES --------------------*/
     /* FLAGS */
     public static boolean artists_flag = false;
     public static boolean albums_flag = false;
     public static boolean songs_flag = false;
     public static boolean artist_list_info = true;
 
-    /* -----------METHODS----------------------*/
-    /*MAIN*/
+    /* ---------------------------------METHODS---------------------------*/
+
+    /*==================> main <=================
+    * Entry Point
+    * @args: Terminal Arguments
+    * Return: void
+    * */
     public static void main(String[] args){
 
         //Initialize variables
@@ -80,7 +85,6 @@ public class Main {
         // Query counts
         // query_albums_count =new SQLStatement(albums_table).queryStmt("*");
         // query_artists_count = new SQLStatement(artists_table).queryStmt("COUNT(*)");
-
 
 
         /* -------------------------RESULTS------------------------*/
@@ -165,16 +169,14 @@ public class Main {
             }
         }
 
-
+        /*-------------- CLOSE RESOURCES IN MAIN -------------*/
         data_src.close(DataSource.CONNECTION_NAME);
     }
 
-
-
-
-
-
-    /* Function to get song title from user*/
+    /*=============> getSongTitle <==============
+    * Function to get song title from user
+    * Return: Song's title [String]
+    * */
     public static String getSongTitle(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter a song title: ");
