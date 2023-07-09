@@ -10,7 +10,8 @@ public class Main {
     public static boolean artists_flag = false;
     public static boolean albums_flag = false;
     public static boolean songs_flag = false;
-    public static boolean artist_list_info = true;
+    public static boolean artist_list_info = false;
+    public static boolean insert_records_flag = true;
 
     /* ---------------------------------METHODS---------------------------*/
 
@@ -18,7 +19,7 @@ public class Main {
     * Entry Point
     * @args: Terminal Arguments
     * Return: void
-    * */
+    */
     public static void main(String[] args){
 
         //Initialize variables
@@ -169,6 +170,12 @@ public class Main {
             }
         }
 
+        //artists-202, album-439, songs-5350
+        if (insert_records_flag) {
+            data_src.insertSong("Like A Rolling Stone", "Bob Dylan",
+                    "Bob Dylan's Greatest Hits", 5);
+        }
+
         /*-------------- CLOSE RESOURCES IN MAIN -------------*/
         data_src.close(DataSource.CONNECTION_NAME);
     }
@@ -176,7 +183,7 @@ public class Main {
     /*=============> getSongTitle <==============
     * Function to get song title from user
     * Return: Song's title [String]
-    * */
+    */
     public static String getSongTitle(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter a song title: ");
